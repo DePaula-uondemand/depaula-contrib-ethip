@@ -1,0 +1,71 @@
+{
+    "depaula_eip": {
+        "in": {
+            "label": {
+                "name": "depaula_eip in",
+                "endpoint": "DePaula U_OnDemand",
+                "mode": "Mode",
+                "variable": "Variable",
+                "diff": "Emit only when value changes (diff)",
+                "variable-select": "Select a variable",
+                "variable-novar": "No variables"
+            },
+            "mode": {
+                "single": "Single variable",
+                "all-split": "All variables, one per message",
+                "all": "All variables"
+            }
+        },
+        "out": {
+            "label": {
+                "name": "depaula_eip out",
+                "endpoint": "DePaula U_OnDemand",
+                "variable": "Variable",
+                "variable-select": "Select a variable"
+            },
+            "disclaimer": "Caution when writing data to production FBC-Couplers!"
+        },
+        "endpoint": {
+            "label": {
+                "address": "IP Address",
+                "port": "Port",
+                "userouting": "Use routing?",
+                "routing": "Routing",
+                "cycletime": "Cycle time",
+                "timeout": "Timeout",
+                "tabs": {
+                    "connection": "Connection",
+                    "variables": "Variables"
+                },
+                "variables": {
+                    "list": "Variable list",
+                    "add": "Add",
+                    "clean": "Remove all",
+                    "del": "Remove",
+                    "name": "Name",
+                    "addr": "Address",
+                    "export": "Export",
+                    "import": "Import"
+                }
+            },
+            "status": {
+                "online": "online",
+                "badvalues": "failure",
+                "offline": "offline",
+                "connecting": "connecting",
+                "unknown": "unknown"
+            }
+        },
+        "label": {
+            "name": "Name",
+            "select": "Select a device"
+        },
+        "error": {
+            "onconnect": "Error connecting to FBC-Coupler: ",
+            "badvalues": "Failure (Bad values)",
+            "missingconfig": "Missing configuration",
+            "noresponse": "No response from FBC-Coupler, restarting the communication",
+            "invalidconntype": "Invalid configuration type \"__connmode__\""
+        }
+    }
+}

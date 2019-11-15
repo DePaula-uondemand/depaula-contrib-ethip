@@ -1,0 +1,675 @@
+<!--
+Original version from:
+  Copyright: (c) 2016-2019, Smart-Tech Controle e Automação
+  GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+Mod by depaula 
+-->
+
+<script type="text/x-red" data-template-name="depaula_eip endpoint">
+    <div class="form-row">
+		<ul style="background: #fff; min-width: 600px; margin-bottom: 20px;" id="node-config-depaula_eip-endpoint-tabs"></ul>
+	</div>
+	<div id="node-config-depaula_eip-endpoint-tabs-content" style="min-height: 170px;">
+		<div id="depaula_eip-endpoint-tab-connection" style="display:none">
+			<div class="form-row">
+				<label for="node-config-input-address"><i class="fa fa-globe"></i> <span data-i18n="depaula_eip.endpoint.label.address"></span></label>
+				<input class="input-append-left" type="text" id="node-config-input-address" data-i18n="[placeholder]depaula_eip.endpoint.label.address" style="width: 40%;">
+				<label for="node-config-input-port" style="margin-left: 10px; width: 35px; "> <span data-i18n="depaula_eip.endpoint.label.port"></span></label>
+				<input type="text" id="node-config-input-port" data-i18n="[placeholder]depaula_eip.endpoint.label.port" style="width: 70px">
+			</div>
+            <div class="form-row">
+				<label>&nbsp;</label>
+				<input type="checkbox" id="node-config-input-userouting" style="display: inline-block; width: auto; vertical-align: top;">
+				<label for="node-input-diff" style="width:70%;"><span data-i18n="depaula_eip.endpoint.label.userouting"></span></label>
+            </div>
+			<div class="form-row" id="node-config-depaula_eip-endpoint-mode-routing">
+				<label for="node-config-input-name"><i class="fa fa-tag"></i> <span data-i18n="depaula_eip.endpoint.label.routing"></span></label>
+				<input type="text" id="node-config-input-routing" data-i18n="[placeholder]depaula_eip.endpoint.label.routing">
+			</div>
+			<div class="form-row">
+				<label for="node-config-input-cycletime"><i class="fa fa-refresh"></i> <span data-i18n="depaula_eip.endpoint.label.cycletime"></span></label>
+				<input type="text" id="node-config-input-cycletime" data-i18n="[placeholder]depaula_eip.endpoint.label.cycletime" style="width: 60px;"> <span>ms</span>
+			</div>
+			<div class="form-row">
+				<label for="node-config-input-timeout"><i class="fa fa-clock-o"></i> <span data-i18n="depaula_eip.endpoint.label.timeout"></span></label>
+				<input type="text" id="node-config-input-timeout" data-i18n="[placeholder]depaula_eip.endpoint.label.timeout" style="width: 60px;"> <span>ms</span>
+			</div>
+			<div class="form-row">
+				<label for="node-config-input-name"><i class="fa fa-tag"></i> <span data-i18n="depaula_eip.label.name"></span></label>
+				<input type="text" id="node-config-input-name" data-i18n="[placeholder]depaula_eip.label.name">
+			</div>
+		</div>
+		<div id="depaula_eip-endpoint-tab-variables" style="display:none">
+			<div class="form-row" style="margin-bottom:0;">
+				<label><i class="fa fa-list"></i> <span data-i18n="depaula_eip.endpoint.label.variables.list"></span></label>
+			</div>
+			<div class="form-row node-input-variables-container-row" style="margin-bottom: 0px;">
+				<div id="node-config-input-variables-container-div" style="box-sizing: border-box; border-radius: 5px; height: 300px; padding: 5px; border: 1px solid #ccc; overflow-y:scroll;">
+					<ol id="node-config-input-variables-container" style=" list-style-type:none; margin: 0;"></ol>
+				</div>
+			</div>
+			<div class="form-row">
+				<a href="#" class="editor-button editor-button-small" id="node-config-depaula_eip-endpoint-var-export" style="margin: 4px; float: right"><i class="fa fa-download"></i> <span data-i18n="depaula_eip.endpoint.label.variables.export"></span></a>
+				<input type="file" id="node-config-depaula_eip-endpoint-var-import" style="display: none"/>
+				<a href="#" class="editor-button editor-button-small" id="node-config-depaula_eip-endpoint-var-import-btn" style="margin: 4px; float: right"><i class="fa fa-upload"></i> <span data-i18n="depaula_eip.endpoint.label.variables.import"></span></a>
+				<a href="#" class="editor-button editor-button-small" id="node-config-input-add-variable" style="margin: 4px;"><i class="fa fa-plus"></i> <span data-i18n="depaula_eip.endpoint.label.variables.add"></span></a>
+				<a href="#" class="editor-button editor-button-small" id="node-config-depaula_eip-endpoint-var-clean" style="margin: 4px;"><i class="fa fa-trash-o"></i> <span data-i18n="depaula_eip.endpoint.label.variables.clean"></span></a>
+			</div>
+			<!--<input type="hidden" id="node-config-input-vartable">-->
+		</div>
+	</div>
+</script>
+
+<script type="text/x-red" data-help-name="depaula_eip endpoint">
+	<p>Configures the connection to UR20-FBC-EIP</p>
+
+	<h3>Details</h3>
+	<p>
+		The <b>Cycle time</b> configuration specifies the time interval in which
+		all variables will be read from the UR20-FBC-EIP Coupler
+	</p>
+	<p>
+		The <b>Timeout</b> parameter sets the maximum amount of time that the Coupler
+		may take to answer our requests. It may be desirable to raise this time if
+		the network is busy of it's latency is high
+	</p>
+	<p>
+		You can check the <b>Use routing?</b> option it when routing is needed or
+		//when connecting to others devices or PLC's//. In this moment it's not available
+		A new field is
+		shown where the routing path can be configured. The last digit of the 
+		default value indicates the slot of the device. Not Available yet.
+	</p>
+
+	<h3>Variable addressing</h3>
+	<p>
+		The variables and their addresses configured on the variable list should
+		follow the same syntax similar as used on RSLogix 500, for example 
+		<code>B3:0/0</code> or <code>F8:1</code>
+		<code>I0:0 get byte</code> or <code>I0:0/15 get bit nro 15</code>
+	</p>
+</script>
+
+<script type="text/javascript">
+	/*! @source http://purl.eligrey.com/github/FileSaver.js/blob/master/FileSaver.js */
+	var saveAs=saveAs||function(e){"use strict";if(typeof e==="undefined"||typeof navigator!=="undefined"&&/MSIE [1-9]\./.test(navigator.userAgent)){return}var t=e.document,n=function(){return e.URL||e.webkitURL||e},r=t.createElementNS("http://www.w3.org/1999/xhtml","a"),o="download"in r,a=function(e){var t=new MouseEvent("click");e.dispatchEvent(t)},i=/constructor/i.test(e.HTMLElement)||e.safari,f=/CriOS\/[\d]+/.test(navigator.userAgent),u=function(t){(e.setImmediate||e.setTimeout)(function(){throw t},0)},s="application/octet-stream",d=1e3*40,c=function(e){var t=function(){if(typeof e==="string"){n().revokeObjectURL(e)}else{e.remove()}};setTimeout(t,d)},l=function(e,t,n){t=[].concat(t);var r=t.length;while(r--){var o=e["on"+t[r]];if(typeof o==="function"){try{o.call(e,n||e)}catch(a){u(a)}}}},p=function(e){if(/^\s*(?:text\/\S*|application\/xml|\S*\/\S*\+xml)\s*;.*charset\s*=\s*utf-8/i.test(e.type)){return new Blob([String.fromCharCode(65279),e],{type:e.type})}return e},v=function(t,u,d){if(!d){t=p(t)}var v=this,w=t.type,m=w===s,y,h=function(){l(v,"writestart progress write writeend".split(" "))},S=function(){if((f||m&&i)&&e.FileReader){var r=new FileReader;r.onloadend=function(){var t=f?r.result:r.result.replace(/^data:[^;]*;/,"data:attachment/file;");var n=e.open(t,"_blank");if(!n)e.location.href=t;t=undefined;v.readyState=v.DONE;h()};r.readAsDataURL(t);v.readyState=v.INIT;return}if(!y){y=n().createObjectURL(t)}if(m){e.location.href=y}else{var o=e.open(y,"_blank");if(!o){e.location.href=y}}v.readyState=v.DONE;h();c(y)};v.readyState=v.INIT;if(o){y=n().createObjectURL(t);setTimeout(function(){r.href=y;r.download=u;a(r);h();c(y);v.readyState=v.DONE});return}S()},w=v.prototype,m=function(e,t,n){return new v(e,t||e.name||"download",n)};if(typeof navigator!=="undefined"&&navigator.msSaveOrOpenBlob){return function(e,t,n){t=t||e.name||"download";if(!n){e=p(e)}return navigator.msSaveOrOpenBlob(e,t)}}w.abort=function(){};w.readyState=w.INIT=0;w.WRITING=1;w.DONE=2;w.error=w.onwritestart=w.onprogress=w.onwrite=w.onabort=w.onerror=w.onwriteend=null;return m}(typeof self!=="undefined"&&self||typeof window!=="undefined"&&window||this.content);if(typeof module!=="undefined"&&module.exports){module.exports.saveAs=saveAs}else if(typeof define!=="undefined"&&define!==null&&define.amd!==null){define("FileSaver.js",function(){return saveAs})}
+</script>
+
+<script type="text/javascript">
+
+	function validateTSAP(num) {
+		if(!(/^[0-9a-fA-F]+$/.test(num))) return false;
+		var i = parseInt(num, 16);
+		if(isNaN(i) || i <  0 || i > 0xff) return false;
+		return true;
+	}
+
+	RED.nodes.registerType('depaula_eip endpoint', {
+		category: 'config',
+		defaults: {
+			address: {
+				value: "",
+				validate: RED.validators.regex(/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/)
+			},
+			port: {
+				value: "44818",
+				validate: RED.validators.number()
+			},
+			userouting: {
+				value: false
+			},
+			routing: {
+				value: "0x01,0x00,0x01,0x00",
+			},
+			cycletime: {
+				value: 500
+			},
+			timeout: {
+				value: 1500
+			},
+			name: {
+				value: ""
+			},
+			vartable: {
+				value: [{
+					name: "",
+					addr: ""
+				}]
+			}
+		},
+		label: function() {
+			return this.name || this.address + ":" + this.port;
+		},
+		oneditprepare: function() {
+			var self = this;
+			var labelName = this._("depaula_eip.endpoint.label.variables.name");
+			var labelAddr = this._("depaula_eip.endpoint.label.variables.addr");
+			var labelDel = this._("depaula_eip.endpoint.label.variables.del");
+
+			var useRoutingFlag = $('#node-config-input-userouting');
+			var routingRow = $('#node-config-depaula_eip-endpoint-mode-routing');
+
+			// Prepare tabs
+			var tabs = RED.tabs.create({
+				id: "node-config-depaula_eip-endpoint-tabs",
+				onchange: function(tab) {
+					$("#node-config-depaula_eip-endpoint-tabs-content").children().hide();
+					$("#" + tab.id).show();
+				}
+			});
+			tabs.addTab({
+				id: "depaula_eip-endpoint-tab-connection",
+				label: this._("depaula_eip.endpoint.label.tabs.connection")
+			});
+			tabs.addTab({
+				id: "depaula_eip-endpoint-tab-variables",
+				label: this._("depaula_eip.endpoint.label.tabs.variables")
+			});
+			setTimeout(function() {
+				tabs.resize()
+			}, 0);
+
+			function generateVariable(variable) {
+				var container = $('<li/>', {
+					style: "background: #fff; margin:0; padding:8px 0px; border-bottom: 1px solid #ccc;"
+				});
+				var row1 = $('<div/>').appendTo(container);
+
+				var variableAddr = $('<input/>', {
+					style: "width: 110px; margin-right: 10px;",
+					class: "node-config-input-variable-addr",
+					type: "text",
+					placeholder: labelAddr
+				}).appendTo(row1);
+
+				var variableName = $('<input/>', {
+					style: "width: 250px",
+					class: "node-config-input-variable-name",
+					type: "text",
+					placeholder: labelName
+				}).appendTo(row1);
+
+				var finalspan = $('<span/>', {
+					style: "float: right; margin-right: 10px;"
+				}).appendTo(row1);
+				var deleteButton = $('<a/>', {
+					href: "#",
+					class: "editor-button editor-button-small",
+					style: "margin-top: 7px; margin-left: 5px;",
+					title: labelDel
+				}).appendTo(finalspan);
+
+				$('<i/>', {
+					class: "fa fa-remove"
+				}).appendTo(deleteButton);
+
+				deleteButton.click(function() {
+					container.css({
+						"background": "#fee"
+					});
+					container.fadeOut(150, function() {
+						$(this).remove();
+					});
+				});
+
+				//populate data
+				variableAddr.val(variable.addr);
+				variableName.val(variable.name);
+
+				$("#node-config-input-variables-container").append(container);
+			}
+
+			function cleanVarTable() {
+				$("#node-config-input-variables-container").children().remove();
+			}
+
+			function populateVarTable() {
+				if(self.vartable) {
+					if(typeof self.vartable == 'string') {
+						self.vartable = JSON.parse(self.vartable);
+					}
+					for (var i = 0; i < self.vartable.length; i++) {
+						generateVariable(self.vartable[i]);
+					}
+				}
+			}
+
+			$("#node-config-input-add-variable").click(function() {
+				generateVariable({
+					name: "",
+					addr: ""
+				});
+			});
+
+			$("#node-config-input-cycletime").spinner({
+				min: 50
+			});
+
+			$("#node-config-input-timeout").spinner({
+				min: 500
+			});
+
+			$("#node-config-depaula_eip-endpoint-var-clean").click(cleanVarTable);
+
+			populateVarTable();
+
+			// export
+			function exportCSV(){
+				var vars = $("#node-config-input-variables-container").children();
+				var lines = [];
+
+				vars.each(function(i) {
+					var elm = $(this);
+					lines.push([
+						elm.find(".node-config-input-variable-addr").val(), //addr
+						elm.find(".node-config-input-variable-name").val() //name
+					].join(';'));
+				});
+
+				saveAs(new Blob([lines.join('\r\n')]), 'depaula_eip-endpoint' + (self.name ? '_' + self.name : '') + '.csv');
+			}
+			$('#node-config-depaula_eip-endpoint-var-export').click(exportCSV);
+
+			// import
+			function importCSV(e) {
+				var file = e.target.files[0];
+				if (!file) {
+					return;
+				}
+				var reader = new FileReader();
+				reader.onload = function(e) {
+					var res = [], i, fields;
+					var contents = e.target.result || '';
+					var lines = contents.split(/[\r\n]+/);
+					
+					if(!lines.length) {
+						alert('file is empty!');
+						return;
+					}
+
+					for(i = 0; i < lines.length; i++){
+						
+						lines[i] = lines[i].trim();
+						if(lines[i] == '') continue;
+
+						fields = lines[i].split(/[\t;]/);
+
+						if(fields.length < 2) {
+							alert('line must have at least two parameters, address and name');
+							return;
+						}
+						res.push({
+							addr: fields[0],
+							name: fields[1]
+						});
+					}
+
+					if(res.length) {
+						cleanVarTable();
+						self.vartable = res;
+						populateVarTable();
+					}
+				};
+				reader.readAsText(file);
+			}
+			$('#node-config-depaula_eip-endpoint-var-import').on('change', importCSV);
+			$('#node-config-depaula_eip-endpoint-var-import-btn').click(function() {
+				$('#node-config-depaula_eip-endpoint-var-import').click();
+			})
+
+			useRoutingFlag.change(function() {
+				if (useRoutingFlag.is(':checked')) {
+					routingRow.show();
+				} else {
+					routingRow.hide();
+				}
+			});
+			useRoutingFlag.change();
+			
+		},
+		oneditsave: function() {
+			var node = this;
+			var vars = $("#node-config-input-variables-container").children();
+			node.vartable = [];
+
+			vars.each(function(i) {
+				var elm = $(this);
+				var v = {
+					addr: elm.find(".node-config-input-variable-addr").val(),
+					name: elm.find(".node-config-input-variable-name").val()
+				}
+				node.vartable.push(v);
+			});
+		}
+	});
+	//# sourceURL=depaula_eip_EndpointScript.js
+</script>
+
+<!-- ######################################################################################## -->
+
+<script type="text/x-red" data-template-name="depaula_eip in">
+	<div class="form-row">
+		<label for="node-input-endpoint"><i class="fa fa-bolt"></i> <span data-i18n="depaula_eip.in.label.endpoint"></span></label>
+		<input type="text" id="node-input-endpoint" data-i18n="[placeholder]depaula_eip.in.label.endpoint">
+	</div>
+	<div class="form-row">
+		<label for="node-input-mode"><i class="fa fa-sliders"></i> <span data-i18n="depaula_eip.in.label.mode"></span></label>
+		<select type="text" id="node-input-mode">
+			<option value="single" data-i18n="depaula_eip.in.mode.single"></option>
+			<option value="all-split" data-i18n="depaula_eip.in.mode.all-split"></option>
+			<option value="all" data-i18n="depaula_eip.in.mode.all"></option>
+		</select>
+	</div>
+	<div class="form-row depaula_eip-input-var-row">
+		<label for="node-input-variable"><i class="fa fa-random"></i> <span data-i18n="depaula_eip.in.label.variable"></span></label>
+		<select type="text" id="node-input-variable">
+		</select>
+    <span id="depaula_eip-custom-var-addr"></span>
+	</div>
+	<div class="form-row">
+		<label>&nbsp;</label>
+		<input type="checkbox" id="node-input-diff" style="display: inline-block; width: auto; vertical-align: top;">
+		<label for="node-input-diff" style="width:70%;"><span data-i18n="depaula_eip.in.label.diff"></span></label>
+	</div>
+	<div class="form-row">
+		<label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="depaula_eip.label.name"></span></label>
+		<input type="text" id="node-input-name" data-i18n="[placeholder]depaula_eip.label.name">
+	</div>
+</script>
+
+<script type="text/x-red" data-help-name="depaula_eip in">
+	<p>Reads data from a UR20-FBC-EIP</p>
+
+	<h3>Outputs</h3>
+	<dl class="message-properties">
+		<dt>payload<span class="property-type">any</span></dt>
+		<dd>
+			The value(s) as read from UR20-FBC-EIP. The format and type of the payload
+			depends on the configured "Mode"
+		</dd>
+
+		<dt>topic<span class="property-type">string</span></dt>
+		<dd>
+			The name of the variable, when the message refers to a single variable
+			(that is, when mode is "Single Variable" or "All variables, one per
+			message")
+		</dd>
+	</dl>
+	
+	<h3>Details</h3>
+	<p>
+		All data is read cyclically from the FBC-Coupler as configured in the <i>depaula_eip endpoint</i>, 
+		but there are three modes of making it available in a flow:
+		follow the same syntax as used on RSLogix 500, for example 
+		<code>B3:0/0</code> or <code>F8:1</code>
+		<code>I0:0 get byte</code> or <code>I0:0/15 get bit nro 15</code>
+	</p>
+	<ul>
+		<li>
+			<b>Single variable:</b> A single variable can be selected from the configured 
+			variables, and a message is sent every cycle, or only when it changes if 
+			<i>diff</i> is checked. <code>msg.payload</code> contains the variable's value
+			and <code>msg.topic</code> has the variable's name.
+		</li>
+		<li>
+			<b>All variables, one per message:</b> Like the <i>Single variable</i> mode, 
+			but for all variables configured. If <i>diff</i> is checked, a message is sent
+			everytime any variable changes. If <i>diff</i> is unchecked, one message is sent 
+			for every variable, in every cycle. Care must be taken about the number of 
+			messages per second in this mode.
+		</li>
+		<li>
+			<b>All variables:</b> In this mode, <code>msg.payload</code> contains an object 
+			with all configured variables and their values. If <i>diff</i> is checked, a 
+			message is sent if at least one of the variables changes its value.
+		</li>
+	</ul>
+</script>
+
+<script type="text/javascript">
+	RED.nodes.registerType('depaula_eip in', {
+		category: 'DePaula U_OnDemand',
+		defaults: {
+			endpoint: {
+				value: "",
+				type: "depaula_eip endpoint",
+				required: true
+			},
+			mode: {
+				value: "single"
+			},
+			variable: {
+				value: ""
+			},
+			diff: {
+				value: true
+			},
+			name: {
+				value: ""
+			}
+		},
+		color: "#f4b100",
+		inputs: 0,
+		outputs: 1,
+		icon: "serial.png",
+		label: function() {
+			var self = this;
+
+			if (this.name) return this.name;
+
+			var endpointNode = RED.nodes.node(this.endpoint);
+			if (endpointNode) {
+				return (this.mode == 'single' ? this.variable : null) || endpointNode.label();
+			}
+			return this._("depaula_eip.in.label.name");
+		},
+		labelStyle: function() {
+			return this.name ? "node_label_italic" : "";
+		},
+		oneditprepare: function() {
+			var self = this;
+
+			var varList = $('#node-input-variable');
+			var varAddr = $('#depaula_eip-custom-var-addr');
+			var modeList = $('#node-input-mode');
+			var endpointList = $("#node-input-endpoint");
+			var vars = [];
+
+			function updateVarList(endpointId) {
+				$('#node-input-variable option').remove();
+
+				var endpointNode = RED.nodes.node(endpointId);
+				if (!endpointNode) return;
+				vars = endpointNode.vartable || [];
+				if (typeof vars === 'string') vars = JSON.parse(vars);
+
+				varList.append($('<option/>', {
+					disabled: "disabled",
+					selected: "selected",
+					style: "display:none;",
+					text: vars.length ? self._("depaula_eip.in.label.variable-select") : self._("depaula_eip.in.label.variable-novar")
+				}));
+
+				$.each(vars, function(i, val) {
+					varList.append($('<option/>', {
+						value: val.name || val.addr,
+						text: val.name || val.addr
+					}));
+					if(val.name == self.variable) {
+						varList.val(self.variable);
+					}
+				});
+			}
+
+			varList.change(function() {
+				$.each(vars, function(i, val) {
+					if(varList.val() == val.name) {
+						varAddr[0].innerText = val.addr;
+						return true;
+					}
+				});
+			});
+
+			endpointList.change(function() {
+				updateVarList(endpointList.val());
+			});
+			updateVarList(self.endpoint);
+
+			modeList.change(function() {
+				if (modeList.val() == "single") {
+					varList.parent().show();
+				} else {
+					varList.parent().hide();
+				}
+			});
+			modeList.change();
+		}
+	});
+</script>
+
+<!-- ######################################################################################## -->
+
+<script type="text/x-red" data-template-name="depaula_eip out">
+	<div class="form-row">
+		<label for="node-input-endpoint"><i class="fa fa-bolt"></i> <span data-i18n="depaula_eip.out.label.endpoint"></span></label>
+		<input type="text" id="node-input-endpoint" data-i18n="[placeholder]depaula_eip.out.label.endpoint">
+	</div>
+	<div class="form-row depaula_eip-input-var-row">
+		<label for="node-input-variable"><i class="fa fa-random"></i> <span data-i18n="depaula_eip.out.label.variable"></span></label>
+		<select type="text" id="node-input-variable">
+		</select>
+    <span id="depaula_eip-custom-var-addr"></span>
+	</div>
+	<div class="form-row">
+		<label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="depaula_eip.label.name"></span></label>
+		<input type="text" id="node-input-name" data-i18n="[placeholder]depaula_eip.label.name">
+	</div>
+	<div class="form-tips"><span data-i18n="[html]depaula_eip.out.disclaimer"></span></div>
+</script>
+
+<script type="text/x-red" data-help-name="depaula_eip out">
+	<p>Writes <code>msg.payload</code> to a memory area of a UR20-FBC-EIP.  Noy available yet!</p>
+
+	<p class="form-tips">
+		<b>Caution when writing data to production FBC-Couplers!</b><br/>
+		Fully test everything you do. The authors cannot be liable for any
+		damage or injury caused by the use of this node
+	</p>
+
+	<h3>Inputs</h3>
+	<dl class="message-properties">
+		<dt>payload<span class="property-type">string | number | boolean | array</span></dt>
+		<dd>
+			the data to be written. It will be casted to the required data type
+			whenever possible.
+		</dd>
+		
+		<dt>variable<span class="property-type">string | array</span></dt>
+		<dd>
+			the variable to write to on FBC-Coupler, according to the variable list
+			on the endpoint. This takes effect <i>only</i> if the "Variable"
+			field is left empty on the configuration.
+		</dd>
+	</dl>
+
+	<h3>Details</h3>
+	<p>
+		Writes data to the UR20-FBC-EIP Coupler on the variable specified on the node configuration
+		or on <code>msg.variable</code>.
+	</p>
+	<p>
+		It is possible to write to multiple variables at once, by setting both 
+		<code>msg.variable</code> and <code>msg.payload</code> to arrays containing 
+		the variable names and their values, respectively. Note that they may not be
+		written in the same write cycle to the FBC-Coupler, depending on the amount of variables 
+		to be written.  Not yet implemented !!
+	</p>
+</script>
+
+<script type="text/javascript">
+	RED.nodes.registerType('depaula_eip out', {
+		category: 'DePaula U_OnDemand',
+		defaults: {
+			endpoint: {
+				value: "",
+				type: "depaula_eip endpoint",
+				required: true
+			},
+			variable: {
+				value: ""
+			},
+			name: {
+				value: ""
+			}
+		},
+		color: "#F4B100",
+		inputs: 1,
+		outputs: 0,
+		icon: "serial.png",
+		align: 'right',
+		label: function() {
+			var self = this;
+
+			if (this.name) return this.name;
+
+			var endpointNode = RED.nodes.node(this.endpoint);
+			if (endpointNode) {
+				return this.variable || endpointNode.label();
+			}
+			return this._("depaula_eip.out.label.name");
+		},
+		labelStyle: function() {
+			return this.name ? "node_label_italic" : "";
+		},
+		oneditprepare: function() {
+			var self = this;
+
+			var varList = $('#node-input-variable');
+			var varAddr = $('#depaula_eip-custom-var-addr')[0];
+			var endpointList = $("#node-input-endpoint");
+			var vars = [];
+
+			function updateVarList(endpointId) {
+				$('#node-input-variable option').remove();
+
+				varList.append($('<option/>', {
+					//disabled: "disabled",
+					selected: "selected",
+					//style: "display:none;",
+					text: self._("depaula_eip.out.label.variable-select"),
+					value: ""
+				}));
+
+				var endpointNode = RED.nodes.node(endpointId);
+				if (!endpointNode) return;
+				vars = endpointNode.vartable || [];
+				if (typeof vars === 'string') vars = JSON.parse(vars);
+
+				$.each(vars, function(i, val) {
+					varList.append($('<option/>', {
+						value: val.name || val.addr,
+						text: val.name || val.addr
+					}));
+					if(val.name == self.variable) {
+						varList.val(self.variable);
+					}
+				});
+			}
+
+			varList.change(function() {
+				varAddr.innerText = ""
+				$.each(vars, function(i, val) {
+					if(varList.val() == val.name) {
+						varAddr.innerText = val.addr;
+						return true;
+					}
+				});
+			});
+
+			endpointList.change(function() {
+				updateVarList(endpointList.val());
+			});
+			updateVarList(self.endpoint);
+		}
+	});
+</script>

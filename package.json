@@ -1,0 +1,64 @@
+{
+  "_from": "depaula-contrib-ethip@^1.0.1",
+  "_inBundle": false,
+  "_integrity": "sha512-YsH2UilHW+6lfEJdb3shTHuDjtHf2m7AE63T/c2TLJyEd9qt/E7M1f3r8HiZaiYmDlhTmXQR3h5nmHm+xPaXNg==",
+  "_location": "/depaula-contrib-ethip",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "depaula-contrib-ethip@^1.0.1",
+    "name": "depaula-contrib-ethip",
+    "escapedName": "depaula-contrib-ethip",
+    "rawSpec": "^1.0.1",
+    "saveSpec": null,
+    "fetchSpec": "^1.0.1"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/depaula-contrib-ethip/-/depaula-contrib-ethip-1.0.1.tgz",
+  "_shasum": "46b226600a304f7eeed8715a9396e8bb46762572",
+  "_spec": "depaula-contrib-ethip@^1.0.1",
+  "_where": "/home/uondemand/.node-red",
+  "author": "DePaula <depaulandemand@gmail.com>",
+  "bundleDependencies": false,
+  "dependencies": {
+    "depaula_eip": "^1.0.1"
+  },
+  "deprecated": false,
+  "description": "A Node-RED depaula's prototype node to interact with some Weidmueller UR20-FBC-EIP Coupler by Ethernet/IP Protocol ",
+  "keywords": [
+    "hardware",
+    "allen-bradley",
+    "rockwell",
+    "plc",
+    "micrologix",
+    "controllogix",
+    "compactlogix",
+    "ethernet-ip",
+    "node-red",
+    "ethernetip",
+    "ethip",
+    "eip",
+    "depaula",
+    "weidmueller",
+    "weidmuller",
+    "UR20",
+    "FBC",
+    "EIP"
+  ],
+  "license": "ISC",
+  "main": "index.js",
+  "name": "depaula-contrib-ethip",
+  "node-red": {
+    "nodes": {
+      "depaula_eip": "red/depaula_eip.js"
+    }
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "1.0.1"
+}
